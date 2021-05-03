@@ -232,7 +232,6 @@ const EmpComponent = () => {
                                 </tbody>
                             </Table>
                             <div className="pull-right">
-                                <p>{page},{paging}</p>
                                 <Pagination aria-label="Page navigation example">
                                     <PaginationItem disabled={page == 0}>
                                         <PaginationLink previous onClick={() => setPage(page - 1)} />

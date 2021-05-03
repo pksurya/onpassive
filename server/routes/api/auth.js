@@ -38,7 +38,7 @@ router.post('/register', (req, res) => {
         newUser
           .save()
           .then(user => {
-            res.status(200).json({msg:"Registration was successful. Go for Login!"});
+            res.status(200).json({ msg: "Registration was successful. Go for Login!" });
           })
           .catch((err) => {
             res.status(500).json(err);
@@ -48,6 +48,38 @@ router.post('/register', (req, res) => {
   });
 });
 
+/**
+* @swagger
+* /login:
+*   post:
+*     tags:
+*       - Auth
+*     summary: Login for Users
+*     description: User Login 
+*     parameters:
+*       - in: body
+*         name: Login
+*         description: Login Authentication.
+*         schema:
+*           type: object
+*           required:
+*             - email
+*             - password
+*           properties:
+*             email:
+*               type: string
+*             password:
+*               type: string     
+*     responses:
+*       200:
+*         description: Will return the token
+*         content:
+*           application/json:
+*             schema:             
+*               $ref: '#/components/schemas/Login' 
+*       403: 
+*         description: 'UnAuthorized Access'   
+*/
 router.post('/login', (req, res) => {
   console.log(keys.secretOrKey);
 
@@ -78,7 +110,7 @@ router.post('/login', (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              payload:payload,
+              payload: payload,
               refreshToken: refreshToken,
               token: 'Bearer ' + token,
               user: e

@@ -7,6 +7,41 @@ const util = require('./utility')
 
 const logger = require('../../logger')
 
+/**
+* @swagger
+* /api/emp/add:
+*   post:
+*     tags:
+*       - Employee
+*     summary: Add Employee
+*     description: Add a new Employees
+*     parameters:
+*       - 
+*         name: authorization
+*         in: header
+*         type: string
+*         required: true
+*       - in: body
+*         name: Employee
+*         description: The Employee to create.
+*         schema:
+*           type: object
+*           required:
+*             - name
+*             - authorName
+*           properties:
+*             name:
+*               type: string
+*             authorName:
+*               type: string     
+*     responses:
+*       200:
+*         description: Will get the newly added Employee detail
+*         content:
+*           application/json:
+*             schema:             
+*               $ref: '#/components/schemas/Emp'    
+*/
 router.post('/add', (req, res) => {
     const EmpAdd = new Emp(req.body);
     let id = util.getNextSequenceValue('employee');
@@ -19,7 +54,30 @@ router.post('/add', (req, res) => {
     });
 });
 
-
+/**
+* @swagger
+* /api/emp/list:
+*   get:
+*     tags:
+*       - Employee
+*     security:
+*       - bearerAuth: []
+*     parameters:
+*       - 
+*         name: authorization
+*         in: header
+*         type: string
+*         required: true
+*     summary: Get Employees
+*     description: Get all Employees
+*     responses:
+*       200:
+*         content:
+*           application/json:
+*             schema:
+*                items:               
+*                  $ref: '#/components/schemas/Emps'    
+*/
 router.get('/list', (req, res) => {
     sortObj = { joinDate: -1 };
     //sorting
@@ -39,6 +97,46 @@ router.get('/list/:id', (req, res) => {
     Emp.findOne({ _id: mongoose.mongo.ObjectId(req.params.id) }).then(user => { res.json(user) });
 });
 
+/**
+* @swagger
+* /api/emp/update/{id}:
+*   put:
+*     tags:
+*       - Employee
+*     summary: Add Employees
+*     description: Add a new Employees
+*     parameters:
+*       - 
+*         name: authorization
+*         in: header
+*         type: string
+*         required: true
+*       - in: path
+*         name: id
+*         description: id of the Employee.
+*         type: string
+*         required: true
+*       - in: body
+*         name: Employee
+*         description: detail of Employee to update.
+*         schema:
+*           type: object
+*           required:
+*             - name
+*             - authorName
+*           properties:
+*             name:
+*               type: string
+*             authorName:
+*               type: string     
+*     responses:
+*       200:
+*         description: Will return the success message
+*         content:
+*           application/json:
+*             schema:             
+*               $ref: '#/components/schemas/Emp'  
+*/
 router.put('/update/:id', (req, res) => {
     Emp.findByIdAndUpdate(mongoose.mongo.ObjectId(req.params.id), { $set: req.body }, function (err, user) {
         if (err) return res.status(400).json(err);
@@ -46,6 +144,34 @@ router.put('/update/:id', (req, res) => {
         return res.status(200).json({ msg: "success" });
     });
 });
+
+/**
+* @swagger
+* /api/emp/delete/{id}:
+*   delete:
+*     tags:
+*       - Employee
+*     summary: Delete Employee
+*     description: delte a Employee
+*     parameters:
+*       - 
+*         name: authorization
+*         in: header
+*         type: string
+*         required: true
+*       - in: path
+*         name: id
+*         description: id of the Employee.
+*         type: string
+*         required: true  
+*     responses:
+*       200:
+*         description: Will return the success message
+*         content:
+*           application/json:
+*             schema:  
+*               $ref: '#/components/schemas/Emp' 
+*/
 
 router.delete('/delete/:id', (req, res) => {
     Emp.findByIdAndDelete(mongoose.mongo.ObjectId(req.params.id)).then(user => {
