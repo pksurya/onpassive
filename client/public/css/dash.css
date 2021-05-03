@@ -1,0 +1,15 @@
+.add-btn-rnd{
+    position: fixed !important;
+    bottom: 20px!important;
+    right: 10px!important;
+    padding: 10px!important;
+    border-radius: 50%!important;
+    z-index:999;
+}
+.req{
+    color: red !important;
+}
+.req:after {
+    content:" *";
+    color: red;
+  }

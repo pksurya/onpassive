@@ -1,0 +1,70 @@
+version: "3.8"
+services:
+  kddb:
+    image: "mongo"
+    # If you need to connect to your db from outside this container 
+    #network_mode: host
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=kisand
+      - MONGO_INITDB_ROOT_PASSWORD=kdelivery
+      - MONGO_DB_USERNAME=kisand
+      - MONGO_DB_PASSWORD=kdelivery
+      - MONGO_DB=kd
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - ./mongo:/home/mongodb
+      - ./mongo/init-db.d/:/docker-entrypoint-initdb.d/
+      - ./mongo/db:/data/db
+    #command: mongod
+     
+  kdserver:
+    build: ./server
+    ports:
+      - "4080:4080"
+      - "465:465"
+      - "587:587"
+      - "25:25"
+    expose:
+      - "4080"
+      - "465"
+      - "587"
+      - "25"
+    restart: always
+    #network_mode: host
+    environment:
+      - MAILER_SERVICE_PROVIDER=Gmail
+      - MAILER_EMAIL_ID=dritalconnect@gmail.com
+      - MAILER_PASSWORD=Pr@shant23
+      - SECRET=Thisismysecret
+      - MONGO_DB_USERNAME=kisand
+      - MONGO_DB_PASSWORD=kdelivery
+      - MONGO_DB_HOST=kddb
+      - MONGO_DB_PORT=27017
+      - MONGO_DB_PARAMETERS=?authSource=admin
+      - MONGO_DB_DATABASE=kdvoice
+      - UPLOAD_PATH=/images
+      - UPLOADED_PATH=/kdserver/images
+    volumes:
+      - ./uploads:/kdserver/images
+    links:
+      - kddb
+
+      kdweb:
+        build: ./client   
+        restart: always 
+        ports:
+          - "4200:80" 
+        links:
+          - kdserver
+        volumes: 
+          - ./client-build:/usr/share/nginx/html
+      nginx: 
+        build: ./nginx
+        restart: always
+        ports:
+          - "4201:80"
+        links:
+          - kdserver
+          - kdweb
