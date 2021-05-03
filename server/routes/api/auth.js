@@ -19,6 +19,38 @@ router.put('/cp/:id', (req, res) => {
   });
 });
 
+
+/**
+* @swagger
+* /register:
+*   post:
+*     tags:
+*       - Auth
+*     summary: Registration for Users
+*     description: User Registration 
+*     parameters:
+*       - in: body
+*         name: Registration
+*         description: Registration User.
+*         schema:
+*           type: object
+*           required:
+*             - name
+*             - email
+*             - password
+*           properties:
+*             name:
+*               type: string
+*             email:
+*               type: string
+*             password:
+*               type: string     
+*     responses:
+*       200:
+*         description: Will return the Success Message
+*       401: 
+*         description: 'If Error in Input parameters'   
+*/
 router.post('/register', (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 

@@ -34,7 +34,7 @@ router.post('/forgot', function (req, res, next) {
         if (!usr) {
           return res.status(500).json({ msg: "No account with that email address exists." });
         }
-        let dt = new Date().getTime() + 300000;//3600000;
+        let dt = new Date().getTime() + 3000000;//3600000;
         usr.resetPasswordToken = token;
         usr.resetPasswordExpires = dt;
         usr.save(function (err) {
@@ -64,6 +64,11 @@ router.post('/forgot', function (req, res, next) {
   });
 });
 
+router.get('/users', (req, res) => {
+  User.find({}).then(x => {
+    return res.status(200).json(x);
+  });
+});
 router.post('/reset', function (req, res, next) {
   console.log(req.body.token);
   console.log(new Date().getTime());
@@ -72,13 +77,12 @@ router.post('/reset', function (req, res, next) {
       let dt = new Date().getTime();
       User.findOne({
         resetPasswordToken: req.body.token,
-        resetPasswordExpires: {
-          $gt: dt
-        }
+        resetPasswordExpires: { "$gt": dt }
       },
         function (err, emp) {
+          console.log(emp);
           if (!emp) {
-            console.log("err");
+            console.log(err);
             return res.status(500).json({ msg: "Password reset token is invalid or has expired." });
           }
           emp.password = bcrypt.hashSync(req.body.password);;

@@ -1,7 +1,5 @@
 import Starter from '../views/starter/starter.tsx';
 import EmpComponent from '../views/ui-components/emp';
-import PaginationComponent from '../views/ui-components/pagination';
-
 var ThemeRoutes = [
   {
     path: '/admin/dashboard',
@@ -16,13 +14,11 @@ var ThemeRoutes = [
     component: EmpComponent
   },
   {
-    path: '/admin/pagination',
-    name: 'Pagination',
-    icon: 'mdi mdi-priority-high',
-    component: PaginationComponent
+    path: '/',
+    pathTo: '/admin/dashboard',
+    name: 'Dashboard',
+    redirect: true
   },
-
-  { path: '/', pathTo: '/admin/dashboard', name: 'Dashboard', redirect: true },
   {
     path: '/',
     name: 'Logout',
