@@ -25,7 +25,6 @@ export function addEmp(auth: any) {
 export function getEmp(obj: any = null) {
     return async (dispatch: Function, getState: Function) => {
         function onSuccess(success: any) {
-            console.log("----------1------");
             dispatch({ type: EmpActions.ADD_EMPS, payload: success });
             return success;
         }
@@ -45,7 +44,7 @@ export function getEmp(obj: any = null) {
         }
     };
 }
-export function getEmpCount() {
+export function getEmpCount(obj: any = null) {
     return async (dispatch: Function, getState: Function) => {
         function onSuccess(success: any) {
             dispatch({ type: EmpActions.ADD_COUNT, payload: success });
@@ -57,6 +56,9 @@ export function getEmpCount() {
         }
         try {
             let url = `${constant.baseAPIurl}api/emp/count`;
+            if (obj) {
+                url = ConvertObjToQueryString(obj, url);
+            }
             const success: any = await axios.get(url);
             onSuccess(success);
         } catch (error) {

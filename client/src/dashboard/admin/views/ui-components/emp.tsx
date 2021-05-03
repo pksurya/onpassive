@@ -139,9 +139,10 @@ const EmpComponent = () => {
         let pages = Math.ceil(total / limit);
         var arr: any[] = [];
         for (var i = 0; i < pages; i++) {
+            let p = i + 1;
             arr.push(
                 <PaginationItem active={page == i}>
-                    <PaginationLink onClick={() => setPage(i)}>{i + 1}</PaginationLink>
+                    <PaginationLink name={i.toString()} onClick={(e: any) => setPage(e.target.name)}>{p}</PaginationLink>
                 </PaginationItem>);
         }
         return arr;
@@ -231,12 +232,13 @@ const EmpComponent = () => {
                                 </tbody>
                             </Table>
                             <div className="pull-right">
+                                <p>{page},{paging}</p>
                                 <Pagination aria-label="Page navigation example">
                                     <PaginationItem disabled={page == 0}>
                                         <PaginationLink previous onClick={() => setPage(page - 1)} />
                                     </PaginationItem>
                                     {getPages()}
-                                    <PaginationItem disabled={page == 0}>
+                                    <PaginationItem disabled={page == (Math.ceil(employee.count / InitEmp.limit) - 1)}>
                                         <PaginationLink next onClick={() => setPage(page + 1)} />
                                     </PaginationItem>
                                 </Pagination>
