@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
-    Col, Row, Card, CardBody, CardTitle, Button, Table, Input, Popover, PopoverBody
+    Col, Row, Card, CardBody, CardTitle, Button, Table, Input, Popover, PopoverBody, Pagination, PaginationItem, PaginationLink
 } from 'reactstrap';
 import { useActions } from '../../../../actions';
 import { RootState } from '../../../../reducers';
@@ -19,12 +19,14 @@ interface IEmployee {
     location: string,
     age: string,
     salary: string,
-    sort: string
+    sort: string,
+    limit: number,
+    page: number
 }
 
 const EmpComponent = () => {
     const auth = useSelector((state: RootState) => state.auth);
-    const godam = useSelector((state: RootState) => state.emp);
+    const employee = useSelector((state: RootState) => state.emp);
     const empService = useActions(EmpService);
     const InitEmp: IEmployee = {
         name: "",
@@ -33,8 +35,11 @@ const EmpComponent = () => {
         location: "",
         age: "",
         salary: "",
-        sort: ""
+        sort: "",
+        limit: 5,
+        page: 0
     }
+    const [page, setPage] = useState(0);
     const [showAdd, setShowAdd] = useState(false);
     const [emp, setEmp] = useState(InitEmp);
     const [search, setSearch] = useState(InitEmp);
@@ -100,15 +105,12 @@ const EmpComponent = () => {
             return true;
         }
     }
-    const status = (e: any, obj: any) => {
-        let a = deepClone(obj);
-        a.active = e.target.checked;
-        empService.updateEmp(a);
-    }
     const filter = () => {
-        empService.getEmp(search);
+        setPage(0);
+        reload(search);
     }
     const reset = () => {
+        setPage(0);
         setShowAdd(false);
         setEdit(false);
         setEditObj({});
@@ -117,7 +119,7 @@ const EmpComponent = () => {
     const freset = () => {
         setIsSearch(false);
         setSearch(InitEmp);
-        empService.getEmp(InitEmp);
+        reload(InitEmp);
     }
     const remove = (x: any) => {
         var result = confirm("Want to delete?");
@@ -131,10 +133,29 @@ const EmpComponent = () => {
         setEmp({ ...x });
         setEditObj(x);
     }
-
+    const getPages = () => {
+        let total = employee.count;
+        let limit = InitEmp.limit;
+        let pages = Math.ceil(total / limit);
+        var arr: any[] = [];
+        for (var i = 0; i < pages; i++) {
+            arr.push(
+                <PaginationItem active={page == i}>
+                    <PaginationLink onClick={() => setPage(i)}>{i + 1}</PaginationLink>
+                </PaginationItem>);
+        }
+        return arr;
+    }
+    const reload = (filter: any) => {
+        empService.getEmp(filter);
+        empService.getEmpCount(filter);
+    }
     useEffect(() => {
-        empService.getEmp();
+        reload(search);
     }, [])
+    useEffect(() => {
+        empService.getEmp({ ...search, page: page });
+    }, [page])
     return (
         <div>
             <Row>
@@ -193,7 +214,7 @@ const EmpComponent = () => {
                                 </thead>
 
                                 <tbody>
-                                    {godam && godam.emp && godam.emp.map((x: any, i: any) =>
+                                    {employee && employee.emp && employee.emp.map((x: any, i: any) =>
                                         <tr key={i}>
                                             <td>{x.Id}</td>
                                             <td>{x.name}</td>
@@ -209,6 +230,17 @@ const EmpComponent = () => {
                                     )}
                                 </tbody>
                             </Table>
+                            <div className="pull-right">
+                                <Pagination aria-label="Page navigation example">
+                                    <PaginationItem disabled={page == 0}>
+                                        <PaginationLink previous onClick={() => setPage(page - 1)} />
+                                    </PaginationItem>
+                                    {getPages()}
+                                    <PaginationItem disabled={page == 0}>
+                                        <PaginationLink next onClick={() => setPage(page + 1)} />
+                                    </PaginationItem>
+                                </Pagination>
+                            </div>
                         </CardBody>
                     </Card >
                 </Col>

@@ -21,7 +21,7 @@ const Starter = () => {
         history.push(url);
     }
     useEffect(() => {
-        empService.getEmp();
+        empService.getEmpCount();
     }, [])
     return (
         <div>
@@ -37,9 +37,9 @@ const Starter = () => {
                                             <i className="mdi mdi-apps mr-2 d-none d-sm-inline"></i>Employees</CardTitle>
                                         <CardBody className="">
                                             <div onClick={() => chagneRoute("/admin/employee")}>
-                                                {empStore && empStore.emp &&
+                                                {empStore && empStore.count &&
                                                     <h1 className="dash-counter">
-                                                        {empStore.emp.length || 0}
+                                                        {empStore.count || 0}
                                                     </h1>
                                                 }
                                             </div>

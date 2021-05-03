@@ -138,6 +138,9 @@ export const ConvertObjToQueryString = (obj: any, url: any) => {
     if (obj[key] != "" && obj[key] != null) {
       return key + '=' + (obj[key] || "")
     }
+    else if (obj[key] === 0) {
+      return key + '=' + "0"
+    }
     else if (typeof obj[key] == 'boolean' && obj[key] != null) {
       return key + '=' + obj[key];
     }

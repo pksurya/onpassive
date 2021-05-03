@@ -1,5 +1,6 @@
 import Starter from '../views/starter/starter.tsx';
 import EmpComponent from '../views/ui-components/emp';
+import PaginationComponent from '../views/ui-components/pagination';
 
 var ThemeRoutes = [
   {
@@ -11,16 +12,15 @@ var ThemeRoutes = [
   {
     path: '/admin/employee',
     name: 'Employee',
-    icon: 'mdi mdi-cart-outline',
+    icon: 'mdi mdi-account-multiple',
     component: EmpComponent
   },
-
-  // {
-  //   path: '/app/pagination',
-  //   name: 'Pagination',
-  //   icon: 'mdi mdi-priority-high',
-  //   component: PaginationComponent
-  // },
+  {
+    path: '/admin/pagination',
+    name: 'Pagination',
+    icon: 'mdi mdi-priority-high',
+    component: PaginationComponent
+  },
 
   { path: '/', pathTo: '/admin/dashboard', name: 'Dashboard', redirect: true },
   {

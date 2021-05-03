@@ -19,11 +19,9 @@ export const emp = createReducer<IEmp>(<IEmp>{}, {
 		return { ...state, loading: false, error: action.payload };
 	},
 	[EmpActions.ADD_EMPS](state: IEmp, action: EmpAction) {
-		console.log("----------2------");
 		return { ...state, loading: false, emp: action.payload.data };
 	},
 	[EmpActions.ADD_EMP](state: IEmp, action: EmpAction) {
-		console.log("----------3------");
 		return { ...state, loading: false, emp: state.emp.concat(action.payload.data) };
 	},
 	[EmpActions.UPDATE_EMP](state: IEmp, action: EmpAction) {
@@ -31,5 +29,8 @@ export const emp = createReducer<IEmp>(<IEmp>{}, {
 	},
 	[EmpActions.DELETE_EMP](state: IEmp, action: EmpAction) {
 		return { ...state, loading: false, emp: state.emp.filter(x => { if (x._id != action.payload._id) { return true; } }) };
-	}
+	},
+	[EmpActions.ADD_COUNT](state: IEmp, action: EmpAction) {
+		return { ...state, loading: false, count: action.payload.data };
+	},
 });

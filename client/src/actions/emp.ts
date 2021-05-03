@@ -45,6 +45,25 @@ export function getEmp(obj: any = null) {
         }
     };
 }
+export function getEmpCount() {
+    return async (dispatch: Function, getState: Function) => {
+        function onSuccess(success: any) {
+            dispatch({ type: EmpActions.ADD_COUNT, payload: success });
+            return success;
+        }
+        function onError(error: any) {
+            dispatch({ type: EmpActions.ADD_ERROR, payload: error });
+            return error;
+        }
+        try {
+            let url = `${constant.baseAPIurl}api/emp/count`;
+            const success: any = await axios.get(url);
+            onSuccess(success);
+        } catch (error) {
+            return onError(error);
+        }
+    };
+}
 export function updateEmp(auth: any) {
     return async (dispatch: Function, getState: Function) => {
         function onSuccess(success: any) {
