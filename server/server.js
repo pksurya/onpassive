@@ -17,11 +17,12 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 
-
+console.log(process.env.MONGO_DB_USERNAME);
+console.log(process.env.MONGO_DB_PASSWORD);
 mongoose.Promise = global.Promise;
 const db = require('./config/keys').mongoURI;
 mongoose
-	.connect(db)
+	.connect(db, { useNewUrlParser: true })
 	.then(() => console.log("MongoDB connected"))
 	.catch(err => console.log(err));
 mongoose.set('useFindAndModify', false);
@@ -29,10 +30,10 @@ mongoose.set('useFindAndModify', false);
 
 
 //set some master data to get ID -- Run for first time
-const Counter = require('./models/counter');
-const c1 = new Counter({ key: "user", value:"1000" });
+const CounterM = require('./models/counter');
+const c1 = new CounterM({ key: "user", value: "1000" });
 c1.save();
-const c2 = new Counter({ key: "employee", value:"10000" });
+const c2 = new CounterM({ key: "employee", value: "10000" });
 c2.save();
 
 
@@ -42,7 +43,7 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerOption = require('./swagger')
 const jsDoc = swaggerJsDoc(swaggerOption);
 
-app.use('/swagger',swaggerUI.serve,swaggerUI.setup(jsDoc))
+app.use('/swagger', swaggerUI.serve, swaggerUI.setup(jsDoc))
 
 
 

@@ -3,10 +3,10 @@ services:
   demodb:
     image: "mongo"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=demo
-      - MONGO_INITDB_ROOT_PASSWORD=demo
-      - MONGO_DB_USERNAME=demo
-      - MONGO_DB_PASSWORD=demo
+      - MONGO_INITDB_ROOT_USERNAME=demou
+      - MONGO_INITDB_ROOT_PASSWORD=demop
+      - MONGO_DB_USERNAME=demou
+      - MONGO_DB_PASSWORD=demop
       - MONGO_DB=employee
     ports:
       - "27017:27017"
