@@ -10,7 +10,4 @@ db.createUser({
      { role: 'readWrite', db: '$MONGO_DB'}]
 })
 
-use kd
-db.counter.insert({"key":"user","value":10000})
-
 EOF

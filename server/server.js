@@ -29,11 +29,11 @@ mongoose.set('useFindAndModify', false);
 
 
 //set some master data to get ID -- Run for first time
-// const Counter = require('./models/counter');
-// const c1 = new Counter({ key: "user", value:"1000" });
-// c1.save();
-// const c2 = new Counter({ key: "employee", value:"10000" });
-// c2.save();
+const Counter = require('./models/counter');
+const c1 = new Counter({ key: "user", value:"1000" });
+c1.save();
+const c2 = new Counter({ key: "employee", value:"10000" });
+c2.save();
 
 
 //swagger/OpenAPI section

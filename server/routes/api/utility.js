@@ -17,16 +17,12 @@ util.IsValid = (obj) => {
         return false;
     }
 }
-util.mail = {
-    id: 'dritalconnect@gmail.com',
-    pwd: 'Pr@shant23'
-}
 util.sendMail = (user, normalPassword, key = '') => {
     var smtpTransport = nodemailer.createTransport({
-        service: process.env.MAILER_SERVICE_PROVIDER || 'Gmail',
+        service: process.env.MAILER_SERVICE_PROVIDER,
         auth: {
-            user: process.env.MAILER_EMAIL_ID || util.mail.id,
-            pass: process.env.MAILER_PASSWORD || util.mail.pwd
+            user: process.env.MAILER_EMAIL_ID ,
+            pass: process.env.MAILER_PASSWORD 
         }
     });
     var mailOptions = {

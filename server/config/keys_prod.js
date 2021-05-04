@@ -1,5 +1,4 @@
-module.exports = {
-    //mongoURI: 'mongodb://admin:dritalconnect@127.0.0.1:27017/farmer?authSource=admin&authMode=scram-sha1',// process.env.MONGO_URI,
+module.exports = {    
     mongoURI: "mongodb://" +
     process.env.MONGO_DB_USERNAME +
     ":" +

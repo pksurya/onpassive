@@ -15,7 +15,7 @@ RUN npm run build
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY --from=builder /kdweb/build .
+COPY --from=builder /demoweb/build .
 RUN chown nginx:nginx /usr/share/nginx/html/*
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
