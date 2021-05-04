@@ -6,7 +6,7 @@ import { ConvertObjToQueryString } from "../utility";
 
 export function addEmp(auth: any) {
     return async (dispatch: Function, getState: Function) => {
-        function onSuccess(success: any) {
+        function onSuccess(success: any) {            
             dispatch({ type: EmpActions.ADD_EMP, payload: success });
             return success;
         }
@@ -16,7 +16,9 @@ export function addEmp(auth: any) {
         }
         try {
             const success: any = await axios.post(`${constant.baseAPIurl}api/emp/add`, auth);
-            onSuccess(success);
+            //onSuccess(success);
+            dispatch(getEmp());
+            dispatch(getEmpCount());
         } catch (error) {
             return onError(error);
         }

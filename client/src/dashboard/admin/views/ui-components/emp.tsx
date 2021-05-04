@@ -27,6 +27,7 @@ interface IEmployee {
 const EmpComponent = () => {
     const auth = useSelector((state: RootState) => state.auth);
     const employee = useSelector((state: RootState) => state.emp);
+    //const employee = useSelector((state: RootState) => state.loading);
     const empService = useActions(EmpService);
     const InitEmp: IEmployee = {
         name: "",

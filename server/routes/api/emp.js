@@ -86,7 +86,7 @@ router.get('/list', (req, res) => {
         sortObj = { [s[0]]: [s[1]] }
     }
     //pagination
-    let limit = req.query.limit || 10;
+    let limit = req.query.limit || 5;
     let skip = Number(req.query.page || 0) * Number(limit);
 
     Emp.find(getFilters(req)).sort(sortObj).skip(skip).limit(Number(limit)).then(o => { res.json(o) });
